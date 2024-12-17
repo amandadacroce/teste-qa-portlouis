@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const { error, Console } = require('console');
-require('dotenv').config(); // Carregar as variáveis do arquivo .env
+require('dotenv').config();
 const aguardarTwoFactorAuth = require('../funcoes/aguardarTwoFactorAuth');
 const criarRepositorio = require('../funcoes/criarRepositorio');
 const iniciarLogout = require('../funcoes/iniciarLogout');
@@ -16,7 +16,7 @@ const PASSWORD = process.env.PASSWORD;
 
 // Verifica e cria a pasta "img" se ela não existir
 if (!fs.existsSync('img')) {
-    fs.mkdirSync('img');
+    fs.mkdirSync('/src/img');
 }
 
 describe('Teste de abertura do navegador, login e acesso ao GitHub', () => {
@@ -70,7 +70,6 @@ describe('Teste de abertura do navegador, login e acesso ao GitHub', () => {
             const currentUrl = page.url();
             expect(currentUrl).toContain('https://github.com/');
         } catch (error) {
-            // await tirarPrintErro('login', page);
             throw new Error('Falha ao fazer login: ' + error.message);
         }
     });
@@ -89,7 +88,7 @@ describe('Teste de abertura do navegador, login e acesso ao GitHub', () => {
 
     test('Navegar até os repositórios e acessar Pull Requests', async () => {
         try {
-            // Selecionar um repositório aleatório e navegar para Pull Requests
+            // Seleciona um repositório aleatório e navega para Pull Requests
             const repositorioSelecionado = await selecionarRepositorioAleatorio({ page });
             expect(repositorioSelecionado).toBeTruthy();
             console.log('Repositório aleatório acessado e Pull Requests abertos com sucesso!');
@@ -101,14 +100,13 @@ describe('Teste de abertura do navegador, login e acesso ao GitHub', () => {
 
     test('Criar novo repositório no GitHub', async () => {
         try {
-            // Navegar até a página de repositórios
+            // Navega até a página de repositórios
             const repositorioNavegado = await irRepositorio(page);
             expect(repositorioNavegado).toBeTruthy();
             console.log('Navegação até os repositórios concluída com sucesso!');
             const resultado = await criarRepositorio(page);
             expect(resultado).toBeTruthy();
         } catch (error) {
-            // await tirarPrintErro('criar_novo_repositorio', page);
             throw new Error('Erro durante a criação do repositório: ' + error.message);
         }
     });
