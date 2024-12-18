@@ -16,7 +16,7 @@ const PASSWORD = process.env.PASSWORD;
 
 // Verifica e cria a pasta "img" se ela não existir
 if (!fs.existsSync('img')) {
-    fs.mkdirSync('/src/img');
+    fs.mkdirSync('./src/img');//
 }
 
 describe('Teste de abertura do navegador, login e acesso ao GitHub', () => {
